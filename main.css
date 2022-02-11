@@ -1,0 +1,27 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+#toolbar {
+  height: 10%;
+  width: 100%;
+}
+
+#canvasDiv {
+  height: 90%;
+  width: 100%;
+}
+
+#drawingArea { 
+  height: 100%;
+  width: 100%;
+}
