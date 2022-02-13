@@ -10,3 +10,18 @@ function mouseEventToCanvasCoords(canvas, evt) {
   let my = (evt.clientY - bRect.top)*(canvas.height/bRect.height);
   return {x: mx, y: my}
 }
+
+function selectedVertexIx(coords) {
+  const isHit = function(v) {
+    dx = v.x - coords.x;
+    dy = v.y - coords.y;
+    return dx*dx + dy*dy <= v.r*v.r;
+  };
+  return vertices.findIndex(isHit);
+}
+
+function clamp(x, minx, maxx) {
+  if (x < minx) return minx;
+  if (x > maxx) return maxx;
+  return x;
+}

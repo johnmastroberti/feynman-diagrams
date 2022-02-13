@@ -1,8 +1,10 @@
-function drawScreen(ctx, vertices, edges) {
-  for (v of vertices)
-    drawVertex(ctx, v);
-  for (e of edges)
-    drawEdge(ctx, e);
+function drawScreen() {
+  let canvas = document.getElementById("drawingArea");
+  let ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  for (v of vertices) drawVertex(ctx, v);
+  for (e of edges) drawEdge(ctx, e);
 }
 
 function drawVertex(ctx, v) {

@@ -12,12 +12,10 @@ html, body {
 }
 
 #toolbar {
-  height: 10%;
   width: 100%;
 }
 
 #canvasDiv {
-  height: 90%;
   width: 100%;
 }
 

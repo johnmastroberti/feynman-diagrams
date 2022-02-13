@@ -3,12 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Feynman</title>
-  <link rel="stylesheet" href="./main.css">
-  <script src="./main.js"></script>
+  <link rel="stylesheet" href="/main.css">
+  <script src="/all.js"></script>
 </head>
 <body>
   <div id="app">
     <div id="toolbar">
+      <p id="toolStatus"></p>
+      <button id="addVertex" onclick="newVertexButton()">Add Vertex</button>
+      <button id="moveVertex" onclick="moveVertexButton()">Move Vertex</button>
+      <button id="removeVertex" onclick="deleteVertexButton()">Delete Vertex</button>
     </div>
     <div id="canvasDiv">
       <canvas id="drawingArea" width=1600 height=900 style="border:1px solid #000000;"/>
