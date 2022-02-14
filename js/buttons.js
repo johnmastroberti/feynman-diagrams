@@ -24,3 +24,8 @@ function moveVertexButton() {
 function deleteVertexButton() {
   genericButton("Delete Vertex", "mousedown", deleteVertexListener);
 }
+
+
+function newEdgeButton() {
+  genericButton("Add Edge", "mousedown", newEdgeListener);
+}

@@ -14,3 +14,20 @@ function drawVertex(ctx, v) {
   ctx.closePath();
   ctx.fill();
 }
+
+function drawEdge(ctx, e) {
+  const v1 = vertices.find(vert => vert.id == e.v1);
+  const v2 = vertices.find(vert => vert.id == e.v2);
+  if (!v1 || !v2) {
+    edges.splice(edges.indexOf(e), 1);
+    return;
+  }
+
+  ctx.fillStyle = "#000000";
+  ctx.lineWidth = "3";
+  ctx.beginPath();
+  ctx.moveTo(v1.x, v1.y);
+  ctx.lineTo(v2.x, v2.y);
+  ctx.stroke();
+}
+
