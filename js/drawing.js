@@ -8,7 +8,10 @@ function drawScreen() {
 }
 
 function drawVertex(ctx, v) {
-  ctx.fillStyle = "#000000";
+  if (v.id == globalSelectedID)
+    ctx.fillStyle = "#00ff00";
+  else
+    ctx.fillStyle = "#000000";
   ctx.beginPath();
   ctx.arc(v.x, v.y, v.r, 0, 2*Math.PI, false);
   ctx.closePath();

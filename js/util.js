@@ -20,6 +20,10 @@ function selectedVertexIx(coords) {
   return vertices.findIndex(isHit);
 }
 
+function selectedEdgeIx(coords) {
+  return -1; // TODO
+}
+
 function clamp(x, minx, maxx) {
   if (x < minx) return minx;
   if (x > maxx) return maxx;
