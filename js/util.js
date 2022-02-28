@@ -21,7 +21,23 @@ function selectedVertexIx(coords) {
 }
 
 function selectedEdgeIx(coords) {
-  return -1; // TODO
+  const isHit = function(e) {
+    // Break coordinates into component along edge and
+    // in perpendicular direction
+    // eVec points from v1 to v2
+    const eVec = {x: e.v2.x-e.v1.x, y: e.v2.y-e.v1.y};
+    const eLen = Math.sqrt(eVec.x**2 + eVec.y**2);
+    const eUnitVec = {x: eVec.x/eLen, y: eVec.y/eLen};
+
+    const relCoords = {x: coords.x-v1.x, y: coords.y-v1.y};
+    const cLen2 = relCoords.x**2 + relCoords.y**2;
+
+    const proj = relCoords.x*eUnitVec.x + relCoords.y*eUnitVec.y;
+    const perp = Math.sqrt(cLen2 - proj**2);
+
+    return proj >= 0 && proj <= eLen && perp <= 10;
+  };
+  return edges.findIndex(isHit);
 }
 
 function clamp(x, minx, maxx) {

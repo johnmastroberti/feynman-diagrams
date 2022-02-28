@@ -17,6 +17,8 @@ function moveSelectListener(evt) {
     selectedIx = selectedEdgeIx(coords);
     if (selectedIx == -1) return;
     globalSelectedID = edges[selectedIx].id;
+    updateStyleBar();
+    drawScreen();
     return;
   } 
   globalSelectedID = vertices[selectedIx].id;
