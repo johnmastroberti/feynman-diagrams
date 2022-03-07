@@ -31,9 +31,40 @@ function drawEdge(ctx, e) {
   else
     ctx.strokeStyle = "#000000";
   ctx.lineWidth = "3";
+
+  switch (e.type) {
+    case "Dashed":
+      drawEdgeDashed(ctx, v1, v2);
+      break;
+    case "Ghost":
+      drawEdgeGhost(ctx, v1, v2);
+      break;
+    case "Solid":
+    default:
+      drawEdgeSolid(ctx, v1, v2);
+  }
+}
+
+function drawEdgeSolid(ctx, v1, v2) {
   ctx.beginPath();
   ctx.moveTo(v1.x, v1.y);
   ctx.lineTo(v2.x, v2.y);
   ctx.stroke();
 }
 
+function drawEdgeGenericDashed(ctx, v1, v2, dashes) {
+  ctx.setLineDash(dashes);
+  ctx.beginPath();
+  ctx.moveTo(v1.x, v1.y);
+  ctx.lineTo(v2.x, v2.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawEdgeDashed(ctx, v1, v2) {
+  drawEdgeGenericDashed(ctx, v1, v2, [10,10]);
+}
+
+function drawEdgeGhost(ctx, v1, v2) {
+  drawEdgeGenericDashed(ctx, v1, v2, [3,3]);
+}

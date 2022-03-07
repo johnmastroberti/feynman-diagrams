@@ -15,8 +15,7 @@ function updateStyleBar() {
 
 function clearStyleBar() {
   setStyleTitle("Selected Object: None");
-  let so = document.getElementById("styleOptions");
-  so.innerHTML = "";
+  $("#styleOptions").html("");
 }
 
 function updateStyleBarVertex(vIndex) {
@@ -35,17 +34,20 @@ function updateStyleBarEdge(eIndex) {
   createStylePtag("v2: " + e.v2);
   createStylePtag("ID: " + e.id);
 
-  createStyleSelector("type", "Type:", ["Line", "Dashed Line", "Fermion", "Anti-Fermion"], e.type);
+  createStyleSelector("type", "Type:", edgeTypes, e.type, 
+    function () {
+      edges[eIndex].type = $("#SBtype").val();
+      drawScreen();
+    });
 }
 
 function createStylePtag(text) {
-  let tag = document.createElement('p');
-  tag.innerHTML = text;
-  document.getElementById("styleOptions").appendChild(tag);
+  const tag = $("<p></p>").text(text);
+  $("#styleOptions").append(tag);
 } 
 
 function setStyleTitle(title) {
-  document.getElementById("styleBarTitle").innerHTML = title;
+  $("#styleBarTitle").text(title);
 }
 
 function createStyleSelector(name, text, values, currentValue, callback) {
@@ -57,8 +59,7 @@ function createStyleSelector(name, text, values, currentValue, callback) {
   labelTag.for = name;
   labelTag.innerHTML = text;
 
-  document.getElementById("styleOptions").appendChild(labelTag);
-  document.getElementById("styleOptions").appendChild(selectTag);
+  $("#styleOptions").append(labelTag, selectTag);
 
   for (val of values) {
     let oTag = document.createElement('option');
@@ -67,4 +68,6 @@ function createStyleSelector(name, text, values, currentValue, callback) {
     selectTag.appendChild(oTag);
   }
   selectTag.value = currentValue;
+
+  selectTag.onclick = callback;
 } 

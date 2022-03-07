@@ -1,10 +1,14 @@
+const edgeTypes = ["Solid", "Dashed", "Fermion", "Anti-Fermion", "Photon", "Gluon", "Ghost", "Double"];
+
 class Edge {
   constructor(v1, v2, type) {
     this.v1 = v1;
     this.v2 = v2;
-    this.type = type;
+    if (edgeTypes.indexOf(type) != -1)
+      this.type = type;
+    else
+      this.type = edgeTypes[0];
     this.selectWidth = 30;
     this.id = newID();
   }
 }
-
