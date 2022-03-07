@@ -29,6 +29,13 @@ function updateStyleBarVertex(vIndex) {
 
 
 function updateStyleBarEdge(eIndex) {
+  setStyleTitle("Selected Object: Edge");
+  const e = edges[eIndex];
+  createStylePtag("v1: " + e.v1);
+  createStylePtag("v2: " + e.v2);
+  createStylePtag("ID: " + e.id);
+
+  createStyleSelector("type", "Type:", ["Line", "Dashed Line", "Fermion", "Anti-Fermion"], e.type);
 }
 
 function createStylePtag(text) {
@@ -40,3 +47,24 @@ function createStylePtag(text) {
 function setStyleTitle(title) {
   document.getElementById("styleBarTitle").innerHTML = title;
 }
+
+function createStyleSelector(name, text, values, currentValue, callback) {
+  name = "SB" + name;
+  let selectTag = document.createElement('select');
+  selectTag.name = name;
+  selectTag.id = name;
+  let labelTag = document.createElement('label');
+  labelTag.for = name;
+  labelTag.innerHTML = text;
+
+  document.getElementById("styleOptions").appendChild(labelTag);
+  document.getElementById("styleOptions").appendChild(selectTag);
+
+  for (val of values) {
+    let oTag = document.createElement('option');
+    oTag.innerHTML = val;
+    oTag.value = val;
+    selectTag.appendChild(oTag);
+  }
+  selectTag.value = currentValue;
+} 

@@ -15,15 +15,15 @@ function moveSelectListener(evt) {
   if (selectedIx == -1) {
     // Fallback to edges
     selectedIx = selectedEdgeIx(coords);
-    if (selectedIx == -1) return;
-    globalSelectedID = edges[selectedIx].id;
-    updateStyleBar();
-    drawScreen();
+    if (selectedIx == -1) {
+      // Nothing is selected
+      changeSelection(-1);
+      return;
+    }
+    changeSelection(edges[selectedIx].id)
     return;
   } 
-  globalSelectedID = vertices[selectedIx].id;
-  updateStyleBar();
-  drawScreen();
+  changeSelection(vertices[selectedIx].id);
 
   function dragVertexHandler(devt) {
     // Move the selected vertex to the event location
@@ -81,7 +81,7 @@ function newEdgeListener(evt) {
   // Add a new handler to find the second vertex and create the edge
   function newEdgeV2Listener(evt2) {
     const ix2 = findOrMakeVertex(evt2);
-    edges.push(new Edge(vertices[ix1].id, vertices[ix2].id), "line");
+    edges.push(new Edge(vertices[ix1].id, vertices[ix2].id, "line"));
     drawScreen();
     canvas.removeEventListener("mousedown", newEdgeV2Listener, false);
     canvas.addEventListener("mousedown", newEdgeListener, false);

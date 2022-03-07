@@ -26,7 +26,10 @@ function drawEdge(ctx, e) {
     return;
   }
 
-  ctx.fillStyle = "#000000";
+  if (e.id == globalSelectedID)
+    ctx.strokeStyle = "#00ff00";
+  else
+    ctx.strokeStyle = "#000000";
   ctx.lineWidth = "3";
   ctx.beginPath();
   ctx.moveTo(v1.x, v1.y);
