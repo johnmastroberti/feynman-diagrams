@@ -6,6 +6,13 @@ function newVertexListener(evt) {
   drawScreen();
 }
 
+function newLabelListener(evt) {
+  // Just create a new label at the event location
+  let canvas = document.getElementById("drawingArea");
+  const coords = mouseEventToCanvasCoords(canvas, evt);
+  labels.push(new Label(coords.x, coords.y));
+}
+
 function moveSelectListener(evt) {
   // Determine what (if anything) was clicked on
   let canvas = document.getElementById("drawingArea");
