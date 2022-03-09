@@ -17,11 +17,13 @@
 
     <div id="toolbar"> 
       <p id="toolStatus"></p>
-      <button id="moveSelect" onclick="moveSelectButton()">Move/Select</button>
       <button id="addVertex" onclick="newVertexButton()">Add Vertex</button>
-      <button id="addLabel" onclick="newLabelButton()">Add Label</button>
-      <button id="removeVertex" onclick="deleteVertexButton()">Delete Vertex</button>
       <button id="addEdge" onclick="newEdgeButton()">Add Edge</button>
+      <button id="addLabel" onclick="newLabelButton()">Add Label</button>
+      <button id="removeEle" onclick="deleteButton()">Delete</button>
+      <button id="moveSelect" onclick="moveSelectButton()">Move/Select</button>
+      <label for="toggleVerts">Show Vertices and Label Outlines</label>
+      <input type="checkbox" id="toggleVerts" name="toggleVerts">
     </div>
 
     <div id="canvasDiv">

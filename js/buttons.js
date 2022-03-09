@@ -21,8 +21,8 @@ function moveSelectButton() {
   genericButton("Move/Select", "mousedown", moveSelectListener);
 }
   
-function deleteVertexButton() {
-  genericButton("Delete Vertex", "mousedown", deleteVertexListener);
+function deleteButton() {
+  genericButton("Delete", "mousedown", deleteListener);
 }
 
 function newEdgeButton() {
@@ -31,4 +31,9 @@ function newEdgeButton() {
 
 function newLabelButton() {
   genericButton("Add Label", "mousedown", newLabelListener);
+}
+
+function toggleVertexDrawing() {
+  globalVerboseDrawing = !globalVerboseDrawing;
+  drawScreen();
 }

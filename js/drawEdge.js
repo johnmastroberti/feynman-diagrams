@@ -12,6 +12,9 @@ function drawEdge(ctx, e) {
     ctx.strokeStyle = "#000000";
   ctx.lineWidth = "3";
 
+  if (e.momentumArrow)
+    drawMomentumArrow(ctx, v1, v2, e.reverseMomentum, e.swapMomentumSide);
+
   switch (e.type) {
     case "Dashed":
       drawEdgeDashed(ctx, v1, v2);
@@ -58,6 +61,24 @@ function drawEdgeGhost(ctx, v1, v2) {
   drawEdgeGenericDashed(ctx, v1, v2, [3,3]);
 }
 
+function drawArrowHead(ctx, coords, angle, size) {
+  // Draws an arrow head pointing in the specified direction
+  let p1 = coords.copy(), p2 = coords.copy();
+  let vecUp = new Vec(1,0), vecDown = new Vec(1,0);
+  vecUp.rotate(angle + 3*Math.PI/4).scale(size);
+  vecDown.rotate(angle - 3*Math.PI/4).scale(size);
+  
+  p1.add(vecUp);
+  p2.add(vecDown);
+
+  ctx.beginPath();
+  ctx.moveTo(coords.x, coords.y);
+  ctx.lineTo(p1.x, p1.y);
+  ctx.moveTo(coords.x, coords.y);
+  ctx.lineTo(p2.x, p2.y);
+  ctx.stroke();
+}
+
 function drawEdgeFermion(ctx, v1, v2) {
   drawEdgeSolid(ctx, v1, v2);
 
@@ -65,22 +86,7 @@ function drawEdgeFermion(ctx, v1, v2) {
   const arrowSize = 15;
   const eVec = verticesToVec(v1, v2);
   const mid = eVec.copy().scale(0.5).add(v1);
-  let dx = eVec.unit().scale(-arrowSize);
-  let dy = dx.perp();
-
-  console.log("eVec = ", eVec);
-  console.log("dx = ", dx, ", dy = ", dy);
-
-  let p1 = mid.copy(), p2 = mid.copy();
-  p1.add(dx).add(dy);
-  p2.add(dx).add(dy.scale(-1));
-
-  ctx.beginPath();
-  ctx.moveTo(mid.x, mid.y);
-  ctx.lineTo(p1.x, p1.y);
-  ctx.moveTo(mid.x, mid.y);
-  ctx.lineTo(p2.x, p2.y);
-  ctx.stroke();
+  drawArrowHead(ctx, mid, eVec.angle(), arrowSize);
 }
 
 function drawEdgeGenericCurve(ctx, v1, v2, cFunc) {
@@ -123,4 +129,26 @@ function drawEdgePhoton(ctx, v1, v2) {
       const pt = {x: xx, y: yy};
       return pt;
     });
+}
+
+function drawMomentumArrow(ctx, v1, v2, reverseArrow, swapSide) {
+  // Draw an arrow parallel to the edge
+
+  // Calculate arrow endpoints
+  const k = swapSide ? -1 : 1;
+  const eVec = verticesToVec(v1, v2);
+  const arrowVec = eVec.copy().scale(0.6);
+  const perp = eVec.unitPerp().scale(k*20);
+  let v1vec = toVec(v1);
+  v1vec.add(perp).add(eVec.unit().scale(0.2*eVec.len()));
+  let v2vec = toVec(v1);
+  v2vec.add(perp).add(eVec.unit().scale(0.8*eVec.len()));
+
+  // Draw the arrow
+  const arrowSize = 15;
+  drawEdgeSolid(ctx, v1vec, v2vec);
+  if (reverseArrow)
+    drawArrowHead(ctx, v1vec, eVec.angle()+Math.PI, arrowSize);
+  else
+    drawArrowHead(ctx, v2vec, eVec.angle(), arrowSize);
 }

@@ -9,6 +9,9 @@ class Edge {
     else
       this.type = edgeTypes[0];
     this.selectWidth = 30;
+    this.momentumArrow = false;
+    this.reverseMomentum = false;
+    this.swapMomentumSide = false;
     this.id = newID();
   }
 }

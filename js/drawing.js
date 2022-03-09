@@ -9,6 +9,7 @@ function drawScreen() {
 }
 
 function drawVertex(ctx, v) {
+  if (!globalVerboseDrawing) return;
   if (v.id == globalSelectedID)
     ctx.fillStyle = "#00ff00";
   else
@@ -28,14 +29,7 @@ function drawLabel(ctx, lab) {
   else
     ctx.strokeStyle = "#000000";
 
-
-  const svg = lab.jax.children[0];
-  svg.id = "label" + lab.id;
-  // console.log(lab.jax);
-  console.log(svg);
-  $("#footerDiv").append(svg);
-  $("#footerDiv").append(lab.jax);
-
-  // ctx.strokeRect(lab.x, lab.y, lab.svgTag.width, lab.svgTag.height);
-  ctx.drawImage(svg, lab.x, lab.y);
+  if (globalVerboseDrawing)
+    ctx.strokeRect(lab.x-5, lab.y-5, lab.w+10, lab.h+10);
+  ctx.drawImage(lab.img, lab.x, lab.y, lab.w, lab.h);
 }
