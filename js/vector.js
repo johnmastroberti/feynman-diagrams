@@ -26,6 +26,12 @@ class Vec {
     return this;
   }
 
+  sub(other) {
+    this.x -= other.x;
+    this.y -= other.y;
+    return this;
+  }
+
   scale(factor) {
     this.x *= factor;
     this.y *= factor;
@@ -61,4 +67,8 @@ function toVec(pt) {
 
 function verticesToVec(v1, v2) {
   return new Vec(v2.x - v1.x, v2.y - v1.y);
+}
+
+function polarVec(r, theta) {
+  return new Vec(r*Math.cos(theta), r*Math.sin(theta));
 }

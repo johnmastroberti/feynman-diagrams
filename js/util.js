@@ -22,25 +22,15 @@ function selectedVertexIx(coords) {
 
 function selectedEdgeIx(coords) {
   const isHit = function(e) {
-    // Break coordinates into component along edge and
-    // in perpendicular direction
-    // eVec points from v1 to v2
-    const v1 = vertices.find(v => v.id == e.v1); // v1 and v2 are the vertex IDs
-    const v2 = vertices.find(v => v.id == e.v2);
-    if (v1 === undefined || v2 === undefined) return false;
-    const eVec = {x: v2.x-v1.x, y: v2.y-v1.y};
-    const eLen = Math.sqrt(eVec.x**2 + eVec.y**2);
-    const eUnitVec = {x: eVec.x/eLen, y: eVec.y/eLen};
-
-    const relCoords = {x: coords.x-v1.x, y: coords.y-v1.y};
-    const cLen2 = relCoords.x**2 + relCoords.y**2;
-
-    const proj = relCoords.x*eUnitVec.x + relCoords.y*eUnitVec.y;
-    const perp = Math.sqrt(cLen2 - proj**2);
-
-    const hit = proj >= 0 && proj <= eLen && perp <= e.selectWidth;
-    // console.log("Edge", e, "is selected:", hit);
-    return hit;
+    const eVec = e.toVec();
+    let rCoords = e.getRelativeCoordsOf(coords);
+    if (!e.curve) {
+      return rCoords.x > 0 && rCoords.x < eVec.len() && Math.abs(rCoords.y) < e.selectWidth;
+    } else {
+      rCoords.x -= eVec.len()/2;
+      const ang = rCoords.angle();
+      return ang > 0 && ang < Math.PI && Math.abs(rCoords.len() - eVec.len()/2) < e.selectWidth;
+    }
   };
   return edges.findIndex(isHit);
 }

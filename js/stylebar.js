@@ -43,7 +43,8 @@ function updateStyleBarEdge(eIndex) {
       drawScreen();
     });
 
-  const checkboxes = [{ prop: 'momentumArrow', label: 'Momentum Arrow '},
+  const checkboxes = [{ prop: 'curve', label: 'Curve '},
+                      { prop: 'momentumArrow', label: 'Momentum Arrow '},
                       { prop: 'reverseMomentum', label: 'Reverse Arrow '},
                       { prop: 'swapMomentumSide', label: 'Swap Arrow to Other Side '}];
   for (const item of checkboxes)
@@ -53,6 +54,12 @@ function updateStyleBarEdge(eIndex) {
         edges[eIndex][item.prop] = $("#SB" + item.prop)[0].checked;
         drawScreen();
       });
+
+  createStyleButton('reverse', "Reverse Orientation",
+    function() {
+      edges[eIndex].reverseOrientation();
+      drawScreen();
+    });
 
   createStylePtag("ID: " + e.id);
 }
@@ -136,4 +143,16 @@ function createStyleSelector(name, text, values, currentValue, callback) {
   selectTag.value = currentValue;
 
   selectTag.onclick = callback;
+} 
+
+function createStyleButton(name, text, callback) {
+  name = "SB" + name;
+  let bTag = document.createElement('button');
+  bTag.id = name;
+  bTag.innerHTML = text;
+  const br = document.createElement('br');
+
+  $("#styleOptions").append(bTag, br);
+
+  bTag.onclick = callback;
 } 
