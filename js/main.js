@@ -3,11 +3,13 @@ let edges = [];
 let labels = [];
 let globalSelectedID = -1;
 let globalVerboseDrawing = true;
+let globalSnapToGrid = true;
+let globalGrid = { rows: 16, cols: 32 };
 
 function initApp() {
-  $("#toggleVerts")[0].checked = true;
-  $("#toggleVerts")[0].onchange = toggleVertexDrawing;
   moveSelectButton();
+  updateStyleBar();
+  drawScreen();
 }
 
 window.onload = initApp;

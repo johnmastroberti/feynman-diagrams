@@ -3,21 +3,41 @@ function drawScreen() {
   let ctx = canvas.getContext("2d");
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  for (v of vertices) drawVertex(ctx, v);
+  drawGrid(ctx);
   for (e of edges) drawEdge(ctx, e);
+  for (v of vertices) drawVertex(ctx, v);
   for (lab of labels) drawLabel(ctx, lab);
 }
 
-function drawVertex(ctx, v) {
-  if (!globalVerboseDrawing) return;
-  if (v.id == globalSelectedID)
-    ctx.fillStyle = "#00ff00";
-  else
-    ctx.fillStyle = "#000000";
-  ctx.beginPath();
-  ctx.arc(v.x, v.y, v.r, 0, 2*Math.PI, false);
-  ctx.closePath();
-  ctx.fill();
+function drawGrid(ctx) {
+  if (!globalSnapToGrid) return;
+
+  let canvas = document.getElementById("drawingArea");
+  const W = canvas.width;
+  const H = canvas.height;
+  const dW = W / globalGrid.cols;
+  const dH = H / globalGrid.rows;
+
+  ctx.lineWidth = "1";
+  ctx.strokeStyle = "#888888";
+  ctx.setLineDash([5,5]);
+  // draw the rows
+  for (let i = 0; i<globalGrid.rows; i++) {
+    const y = (i+0.5) * dH;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(W, y);
+    ctx.stroke();
+  }
+  // draw the columns
+  for (let i = 0; i<globalGrid.cols; i++) {
+    const x = (i+0.5) * dW;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, H);
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
 }
 
 function drawLabel(ctx, lab) {

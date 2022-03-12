@@ -4,6 +4,7 @@ function newVertexListener(evt) {
   const coords = mouseEventToCanvasCoords(canvas, evt);
   vertices.push(new Vertex(coords.x, coords.y));
   changeSelection(vertices[vertices.length-1].id)
+  snapVerticesToGrid();
   drawScreen();
 }
 
@@ -66,6 +67,9 @@ function moveSelectListener(evt) {
     canvas.removeEventListener("mousemove", dragHandler, false);
     canvas.removeEventListener("mouseup", upHandler, false);
     canvas.addEventListener("mousedown", moveSelectListener, false);
+    snapVerticesToGrid();
+    updateStyleBar();
+    drawScreen();
   }
 
   // Switch to dragging mode

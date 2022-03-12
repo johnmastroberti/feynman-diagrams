@@ -1,6 +1,7 @@
 function updateStyleBar() {
   clearStyleBar();
-  if (globalSelectedID == -1) return;
+  if (globalSelectedID == -1)
+    return updateStyleBarGlobal();
 
   const vIndex = vertices.findIndex(v => v.id == globalSelectedID);
   if (vIndex != -1)
@@ -22,12 +23,34 @@ function clearStyleBar() {
   $("#styleOptions").html("");
 }
 
+function updateStyleBarGlobal() {
+  setStyleTitle("Canvas Settings");
+
+  createStyleCheckBox("verboseDrawing", "Show all vertices and label outlines", 
+    globalVerboseDrawing,
+    function() {
+      globalVerboseDrawing = $("#SBverboseDrawing")[0].checked;
+      drawScreen();
+    });
+  createStyleCheckBox("snapToGrid", "Snap to grid", 
+    globalSnapToGrid,
+    function() {
+      globalSnapToGrid = $("#SBsnapToGrid")[0].checked;
+      drawScreen();
+    });
+}
+
 function updateStyleBarVertex(vIndex) {
   setStyleTitle("Selected Object: Vertex");
-  createStylePtag("X: " + vertices[vIndex].x);
-  createStylePtag("Y: " + vertices[vIndex].y);
-  createStylePtag("Radius: " + vertices[vIndex].r);
-  createStylePtag("ID: " + vertices[vIndex].id);
+  const v = vertices[vIndex];
+  // createStylePtag("X: " + v.x);
+  // createStylePtag("Y: " + v.y);
+  createStyleSelector("type", "Type:", vertexTypes, v.type, 
+    function () {
+      vertices[vIndex].type = $("#SBtype").val();
+      drawScreen();
+    });
+  // createStylePtag("ID: " + v.id);
 }
 
 
@@ -67,15 +90,15 @@ function updateStyleBarEdge(eIndex) {
 
 function updateStyleBarLabel(labIndex) {
   setStyleTitle("Selected Object: Label");
-  createStylePtag("X: " + labels[labIndex].x);
-  createStylePtag("Y: " + labels[labIndex].y);
-  createStylePtag("Scale: " + labels[labIndex].scale);
-  createStylePtag("Text: " + labels[labIndex].text);
+  // createStylePtag("X: " + labels[labIndex].x);
+  // createStylePtag("Y: " + labels[labIndex].y);
+  // createStylePtag("Scale: " + labels[labIndex].scale);
+  // createStylePtag("Text: " + labels[labIndex].text);
   createStyleTextBox("text", "Text:", labels[labIndex].text,
     function () {
       labels[labIndex].setText($("#SBtext").val());
     });
-  createStylePtag("ID: " + labels[labIndex].id);
+  // createStylePtag("ID: " + labels[labIndex].id);
 }
 
 function createStylePtag(text) {
@@ -116,7 +139,7 @@ function createStyleCheckBox(name, text, currentValue, callback) {
   labelTag.innerHTML = text;
   const br = document.createElement('br');
 
-  $("#styleOptions").append(labelTag, inputTag, br);
+  $("#styleOptions").append(inputTag, labelTag, br);
 
   inputTag.checked = currentValue;
   inputTag.onclick = callback;

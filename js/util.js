@@ -13,9 +13,10 @@ function mouseEventToCanvasCoords(canvas, evt) {
 
 function selectedVertexIx(coords) {
   const isHit = function(v) {
-    dx = v.x - coords.x;
-    dy = v.y - coords.y;
-    return dx*dx + dy*dy <= v.r*v.r;
+    const dx = v.x - coords.x;
+    const dy = v.y - coords.y;
+    const R = v.drawRadius();
+    return dx*dx + dy*dy <= R*R;
   };
   return vertices.findIndex(isHit);
 }
