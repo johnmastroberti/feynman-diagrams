@@ -17,6 +17,7 @@ function newLabelListener(evt) {
 }
 
 function moveSelectListener(evt) {
+  console.log(evt);
   // Determine what (if anything) was clicked on
   let canvas = $("#drawingArea")[0];
   const coords = mouseEventToCanvasCoords(canvas, evt);

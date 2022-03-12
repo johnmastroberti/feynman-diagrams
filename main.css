@@ -4,31 +4,71 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  color: white;
+  background: #444444;
+}
+
+a {
+  color: white;
 }
 
 #app {
   width: 100%;
   height: 100%;
-  background: beige;
+  /* background: beige; */
+  display: grid;
+  grid-template-columns: 80% 20%;
+  justify-items: start;
+  align-items: start;
+  align-self: stretch;
 }
 
 #styleBar {
-  width: 20%;
+  /* width: 20%; */
+  width: 100%;
   height: 100%;
-  background: beige;
-  float: right;
+  grid-row: 1;
+  grid-column: 2;
+  /* background: beige; */
+  /* float: right; */
 }
 
+#mainArea {
+  display: flex;
+  flex-direction: column;
+}
+
+#pageTitle {
+  margin: 5px;
+  font: 50pt serif;
+}
+
+
 #toolbar {
-  width: 80%;
-  float: left;
-  background: beige;
+  /* width: 80%; */
+  /* float: left; */
+  display: flex;
+  width: 100%;
+  height: 100%;
+  /* background: beige; */
 }
 
 #canvasDiv {
-  width: 80%;
-  float: left;
-  background: beige;
+  /* width: 80%; */
+  /* float: left; */
+  width: 100%;
+  height: 100%;
+  /* background: beige; */
+}
+
+#footerDiv {
+  /* height: 10%; */
+  width: 100%;
+  height: 100%;
+  padding: 10px 0 10px 0;
+  /* background: beige; */
+  display: flex;
+  justify-content: space-evenly;
 }
 
 #drawingArea { 

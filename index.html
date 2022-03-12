@@ -15,20 +15,25 @@
       <div id="styleOptions"></div>
     </div>
 
-    <div id="toolbar"> 
-      <p id="toolStatus"></p>
-      <button id="addVertex" onclick="newVertexButton()">Add Vertex</button>
-      <button id="addEdge" onclick="newEdgeButton()">Add Edge</button>
-      <button id="addLabel" onclick="newLabelButton()">Add Label</button>
-      <button id="removeEle" onclick="deleteButton()">Delete</button>
-      <button id="moveSelect" onclick="moveSelectButton()">Move/Select</button>
-    </div>
+    <div id="mainArea">
+      <div id="toolbar"> 
+        <h1 id="pageTitle"><em>FeynDraw</em></h1>
+        <p id="toolStatus"></p>
+        <button id="addVertex" onclick="newVertexButton()">Add Vertex</button>
+        <button id="addEdge" onclick="newEdgeButton()">Add Edge</button>
+        <button id="addLabel" onclick="newLabelButton()">Add Label</button>
+        <button id="removeEle" onclick="deleteButton()">Delete</button>
+        <button id="moveSelect" onclick="moveSelectButton()">Move/Select</button>
+      </div>
 
-    <div id="canvasDiv">
-      <canvas id="drawingArea" width=1600 height=800/>
-    </div>
+      <div id="canvasDiv">
+        <canvas id="drawingArea" width=1600 height=800/>
+      </div>
 
-    <div id="footerDiv"></div>
+      <div id="footerDiv">
+        <a href="https://github.com/johnmastroberti/feynman-diagrams">GitHub</a>
+      </div>
+    </div>
   </div>
 </body>
 </html>
