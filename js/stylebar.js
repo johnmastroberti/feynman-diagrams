@@ -1,8 +1,14 @@
-function updateStyleBar() {
-  clearStyleBar();
-  if (globalSelectedID == -1)
-    return updateStyleBarGlobal();
+function initStyleBar() {
+  createStyleTools();
+  createStyleCanvas();
+  updateStyleElement();
+  createStyleExport();
+}
 
+function updateStyleElement() {
+  clearStyleElement();
+  if (globalSelectedID === -1)
+    return;
   const vIndex = vertices.findIndex(v => v.id == globalSelectedID);
   if (vIndex != -1)
     return updateStyleBarVertex(vIndex);
@@ -18,21 +24,32 @@ function updateStyleBar() {
   console.log("Unexpectedly failed to locate object with globalSelectedId");
 }
 
-function clearStyleBar() {
-  setStyleTitle("Selected Object: None");
-  $("#styleOptions").html("");
+function clearStyleElement() {
+  $("#styleElement").html("");
 }
 
-function updateStyleBarGlobal() {
-  setStyleTitle("Canvas Settings");
+function createStyleTools() {
+  const divID = "#styleTools";
+  createStyleHeading(divID, "Tools");
+  const buttons = [ imgButton("vertexbtn", "Add Vertex",  "/img/vertex_icon.png", newVertexButton),
+                    imgButton("edgebtn",   "Add Edge",    "/img/edge_icon.png", newEdgeButton),
+                    imgButton("labelbtn",  "Add Label",   "/img/label_icon.png", newLabelButton),
+                    imgButton("moveselbtn","Move/Select", "/img/move_icon.png", moveSelectButton) ];
 
-  createStyleCheckBox("verboseDrawing", "Show all vertices and label outlines", 
+  createButtonGroup(divID, "toolButtonGroup", buttons);
+}
+
+function createStyleCanvas() {
+  const divID = "#styleCanvas";
+  createStyleHeading(divID, "Canvas Settings");
+
+  createStyleCheckBox(divID, "verboseDrawing", "Show all vertices and label outlines", 
     globalVerboseDrawing,
     function() {
       globalVerboseDrawing = $("#SBverboseDrawing")[0].checked;
       drawScreen();
     });
-  createStyleCheckBox("snapToGrid", "Snap to grid", 
+  createStyleCheckBox(divID, "snapToGrid", "Snap to grid", 
     globalSnapToGrid,
     function() {
       globalSnapToGrid = $("#SBsnapToGrid")[0].checked;
@@ -40,27 +57,30 @@ function updateStyleBarGlobal() {
     });
 }
 
+function createStyleExport() {
+  const divID = "#styleExport";
+  createStyleHeading(divID, "Import/Export");
+}
+
+
 function updateStyleBarVertex(vIndex) {
-  setStyleTitle("Selected Object: Vertex");
+  const divID = "#styleElement";
+  createStyleHeading(divID, "Vertex Options");
   const v = vertices[vIndex];
-  // createStylePtag("X: " + v.x);
-  // createStylePtag("Y: " + v.y);
-  createStyleSelector("type", "Type:", vertexTypes, v.type, 
+  createStyleSelector(divID, "type", "Type:", vertexTypes, v.type, 
     function () {
       vertices[vIndex].type = $("#SBtype").val();
       drawScreen();
     });
-  // createStylePtag("ID: " + v.id);
 }
 
 
 function updateStyleBarEdge(eIndex) {
-  setStyleTitle("Selected Object: Edge");
+  const divID = "#styleElement";
+  createStyleHeading(divID, "Edge Options");
   const e = edges[eIndex];
-  createStylePtag("v1: " + e.v1);
-  createStylePtag("v2: " + e.v2);
 
-  createStyleSelector("type", "Type:", edgeTypes, e.type, 
+  createStyleSelector(divID, "type", "Type:", edgeTypes, e.type, 
     function () {
       edges[eIndex].type = $("#SBtype").val();
       drawScreen();
@@ -71,34 +91,28 @@ function updateStyleBarEdge(eIndex) {
                       { prop: 'reverseMomentum', label: 'Reverse Arrow '},
                       { prop: 'swapMomentumSide', label: 'Swap Arrow to Other Side '}];
   for (const item of checkboxes)
-    createStyleCheckBox(item.prop, item.label, 
+    createStyleCheckBox(divID, item.prop, item.label, 
       edges[eIndex][item.prop],
       function() {
         edges[eIndex][item.prop] = $("#SB" + item.prop)[0].checked;
         drawScreen();
       });
 
-  createStyleButton('reverse', "Reverse Orientation",
+  createStyleButton(divID, 'reverse', "Reverse Orientation",
     function() {
       edges[eIndex].reverseOrientation();
       drawScreen();
     });
-
-  createStylePtag("ID: " + e.id);
 }
 
 
 function updateStyleBarLabel(labIndex) {
-  setStyleTitle("Selected Object: Label");
-  // createStylePtag("X: " + labels[labIndex].x);
-  // createStylePtag("Y: " + labels[labIndex].y);
-  // createStylePtag("Scale: " + labels[labIndex].scale);
-  // createStylePtag("Text: " + labels[labIndex].text);
-  createStyleTextBox("text", "Text:", labels[labIndex].text,
+  const divID = "#styleElement";
+  createStyleHeading(divID, "Label Options");
+  createStyleTextBox(divID, "text", "Text:", labels[labIndex].text,
     function () {
       labels[labIndex].setText($("#SBtext").val());
     });
-  // createStylePtag("ID: " + labels[labIndex].id);
 }
 
 function createStylePtag(text) {
@@ -110,7 +124,13 @@ function setStyleTitle(title) {
   $("#styleBarTitle").text(title);
 }
 
-function createStyleTextBox(name, text, currentValue, callback) {
+function createStyleHeading(divID, text) {
+  let h1 = document.createElement('h1');
+  h1.innerHTML = text;
+  $(divID).append(h1);
+}
+
+function createStyleTextBox(divID, name, text, currentValue, callback) {
   name = "SB" + name;
   let inputTag = document.createElement('input');
   inputTag.name = name;
@@ -122,13 +142,13 @@ function createStyleTextBox(name, text, currentValue, callback) {
   buttonTag.innerHTML = "Apply";
   const br = document.createElement('br');
 
-  $("#styleOptions").append(labelTag, inputTag, buttonTag, br);
+  $(divID).append(labelTag, inputTag, buttonTag, br);
 
   inputTag.value = currentValue;
   buttonTag.onclick = callback;
 } 
 
-function createStyleCheckBox(name, text, currentValue, callback) {
+function createStyleCheckBox(divID, name, text, currentValue, callback) {
   name = "SB" + name;
   let inputTag = document.createElement('input');
   inputTag.type = "checkbox";
@@ -139,13 +159,13 @@ function createStyleCheckBox(name, text, currentValue, callback) {
   labelTag.innerHTML = text;
   const br = document.createElement('br');
 
-  $("#styleOptions").append(inputTag, labelTag, br);
+  $(divID).append(inputTag, labelTag, br);
 
   inputTag.checked = currentValue;
   inputTag.onclick = callback;
 } 
 
-function createStyleSelector(name, text, values, currentValue, callback) {
+function createStyleSelector(divID, name, text, values, currentValue, callback) {
   name = "SB" + name;
   let selectTag = document.createElement('select');
   selectTag.name = name;
@@ -155,7 +175,7 @@ function createStyleSelector(name, text, values, currentValue, callback) {
   labelTag.innerHTML = text;
   const br = document.createElement('br');
 
-  $("#styleOptions").append(labelTag, selectTag, br);
+  $(divID).append(labelTag, selectTag, br);
 
   for (val of values) {
     let oTag = document.createElement('option');
@@ -168,14 +188,15 @@ function createStyleSelector(name, text, values, currentValue, callback) {
   selectTag.onclick = callback;
 } 
 
-function createStyleButton(name, text, callback) {
+function createStyleButton(divID, name, text, callback) {
   name = "SB" + name;
   let bTag = document.createElement('button');
   bTag.id = name;
   bTag.innerHTML = text;
-  const br = document.createElement('br');
+  // const br = document.createElement('br');
 
-  $("#styleOptions").append(bTag, br);
+  $(divID).append(bTag);
 
   bTag.onclick = callback;
 } 
+

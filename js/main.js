@@ -8,7 +8,7 @@ let globalGrid = { rows: 16, cols: 32 };
 
 function initApp() {
   moveSelectButton();
-  updateStyleBar();
+  initStyleBar();
   drawScreen();
 }
 

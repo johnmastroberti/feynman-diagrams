@@ -3,27 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>Feynman</title>
-  <link rel="stylesheet" href="/main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   <script src="/dist/all.js"></script>
+  <link rel="stylesheet" href="/main.css">
 </head>
 <body>
   <div id="app">
     <div id="styleBar">
-      <h2 id="styleBarTitle">Selected Object: None</h2>
-      <div id="styleOptions"></div>
+      <div id="styleTools"></div>
+      <div id="styleCanvas"></div>
+      <div id="styleElement"></div>
+      <div id="styleSpacer"></div>
+      <div id="styleExport"></div>
     </div>
 
     <div id="mainArea">
-      <div id="toolbar"> 
+      <div id="titleBar"> 
         <h1 id="pageTitle"><em>FeynDraw</em></h1>
-        <p id="toolStatus"></p>
-        <button id="addVertex" onclick="newVertexButton()">Add Vertex</button>
-        <button id="addEdge" onclick="newEdgeButton()">Add Edge</button>
-        <button id="addLabel" onclick="newLabelButton()">Add Label</button>
-        <button id="removeEle" onclick="deleteButton()">Delete</button>
-        <button id="moveSelect" onclick="moveSelectButton()">Move/Select</button>
       </div>
 
       <div id="canvasDiv">

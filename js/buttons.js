@@ -8,8 +8,8 @@ function clearCanvasListeners() {
 function genericButton(stext, event, listener) {
   clearCanvasListeners();
   let canvas = document.getElementById("drawingArea");
-  let status = document.getElementById("toolStatus");
-  status.innerHTML = "Selected Tool: " + stext;
+  // let status = document.getElementById("toolStatus");
+  // status.innerHTML = "Selected Tool: " + stext;
   canvas.addEventListener(event, listener, false);
 }
 

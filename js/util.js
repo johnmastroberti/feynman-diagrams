@@ -64,6 +64,6 @@ function clamp(x, minx, maxx) {
 
 function changeSelection(id) {
   globalSelectedID = id;
-  updateStyleBar();
+  updateStyleElement();
   drawScreen();
 }

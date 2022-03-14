@@ -17,7 +17,6 @@ function newLabelListener(evt) {
 }
 
 function moveSelectListener(evt) {
-  console.log(evt);
   // Determine what (if anything) was clicked on
   let canvas = $("#drawingArea")[0];
   const coords = mouseEventToCanvasCoords(canvas, evt);
@@ -60,7 +59,7 @@ function moveSelectListener(evt) {
       labels[selection.ix].y = clamp(dcoords.y - grabOffset.y, 5, canvas.height-h-5);
     }
     drawScreen();
-    updateStyleBar();
+    updateStyleElement();
   }
 
   function upHandler(e) {
@@ -69,7 +68,7 @@ function moveSelectListener(evt) {
     canvas.removeEventListener("mouseup", upHandler, false);
     canvas.addEventListener("mousedown", moveSelectListener, false);
     snapVerticesToGrid();
-    updateStyleBar();
+    updateStyleElement();
     drawScreen();
   }
 
