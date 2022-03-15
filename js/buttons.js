@@ -20,7 +20,7 @@ function newVertexButton() {
 function moveSelectButton() {
   genericButton("Move/Select", "mousedown", moveSelectListener);
 }
-  
+
 function deleteButton() {
   genericButton("Delete", "mousedown", deleteListener);
 }

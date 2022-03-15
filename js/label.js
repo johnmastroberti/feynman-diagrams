@@ -20,14 +20,16 @@ class Label {
     options.display = true;
     const wrapper = MathJax.tex2svg(newText, options);
     const svg = wrapper.getElementsByTagName("svg")[0].outerHTML;
-    let output = { svg: "", img: "" }
-    this.img = new Image()
-    this.img.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));
-    this.img.onload = function() {
+    let output = { svg: "", img: "" };
+    this.img = new Image();
+    this.img.src =
+      "data:image/svg+xml;base64," +
+      window.btoa(unescape(encodeURIComponent(svg)));
+    this.img.onload = function () {
       self.w = self.scale * self.img.width;
       self.h = self.scale * self.img.height;
       drawScreen();
-    }
+    };
     // MathJax.tex2svgPromise(newText, options).then(function (node) {
     //   // Draw the text to the canvas
     //   self.jax = node;

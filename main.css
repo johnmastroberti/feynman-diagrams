@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -43,7 +44,6 @@ a {
   font: 50pt serif;
 }
 
-
 #titleBar {
   display: flex;
   width: 100%;
@@ -64,7 +64,7 @@ a {
   justify-content: space-evenly;
 }
 
-#drawingArea { 
+#drawingArea {
   height: 100%;
   width: 100%;
 }
@@ -80,11 +80,11 @@ a {
   flex-flow: column nowrap;
   align-items: center;
   padding: 5px;
-  -moz-user-select: none; 
-  -webkit-user-select: none; 
-  -ms-user-select:none; 
-  user-select:none;
-  -o-user-select:none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
   border-radius: 10%;
 }
 
@@ -97,7 +97,10 @@ a {
   background: #884444;
 }
 
-#styleTools, #styleCanvas, #styleElement, #styleExport {
+#styleTools,
+#styleCanvas,
+#styleElement,
+#styleExport {
   padding: 10px;
   flex-grow: 0;
 }

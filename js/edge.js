@@ -1,13 +1,20 @@
-const edgeTypes = ["Solid", "Dashed", "Fermion", "Anti-Fermion", "Photon", "Gluon", "Ghost", "Double"];
+const edgeTypes = [
+  "Solid",
+  "Dashed",
+  "Fermion",
+  "Anti-Fermion",
+  "Photon",
+  "Gluon",
+  "Ghost",
+  "Double",
+];
 
 class Edge {
   constructor(v1, v2, type) {
     this.v1 = v1;
     this.v2 = v2;
-    if (edgeTypes.indexOf(type) != -1)
-      this.type = type;
-    else
-      this.type = edgeTypes[0];
+    if (edgeTypes.indexOf(type) != -1) this.type = type;
+    else this.type = edgeTypes[0];
     this.selectWidth = 30;
     this.momentumArrow = false;
     this.reverseMomentum = false;
@@ -20,8 +27,8 @@ class Edge {
 
   getVertices() {
     const self = this;
-    const vert1 = vertices.find(v => v.id == self.v1);
-    const vert2 = vertices.find(v => v.id == self.v2);
+    const vert1 = vertices.find((v) => v.id == self.v1);
+    const vert2 = vertices.find((v) => v.id == self.v2);
     return [vert1, vert2];
   }
 
@@ -40,10 +47,9 @@ class Edge {
     const verts = this.getVertices();
     let eVec = verticesToVec(verts[0], verts[1]);
     let mid = toVec(verts[0]).add(eVec.scale(0.5));
-    if (this.curve)
-      mid.add(eVec.perp().scale(-1));
+    if (this.curve) mid.add(eVec.perp().scale(-1));
     return mid;
-  } 
+  }
 
   straightMidpoint() {
     // computes the midpoint as if this edge was not curved
@@ -63,7 +69,7 @@ class Edge {
     const verts = this.getVertices();
     rel.sub(verts[0]);
     const eVec = verticesToVec(verts[0], verts[1]);
-    rel.rotate(-1*eVec.angle());
+    rel.rotate(-1 * eVec.angle());
     rel.y *= -1; // tbh not sure why this is necessary
     return rel;
   }

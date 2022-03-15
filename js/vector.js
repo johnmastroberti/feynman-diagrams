@@ -9,7 +9,7 @@ class Vec {
   }
 
   len2() {
-    return this.x*this.x + this.y*this.y;
+    return this.x * this.x + this.y * this.y;
   }
 
   len() {
@@ -39,20 +39,22 @@ class Vec {
   }
 
   rotate(theta) {
-    const ox = this.x, oy = this.y;
-    const c = Math.cos(theta), s = Math.sin(theta);
+    const ox = this.x,
+      oy = this.y;
+    const c = Math.cos(theta),
+      s = Math.sin(theta);
     this.x = c * ox - s * oy;
     this.y = s * ox + c * oy;
     return this;
   }
 
   unit() {
-    return new Vec(this.x/this.len(), this.y/this.len());
+    return new Vec(this.x / this.len(), this.y / this.len());
   }
 
   perp() {
     let v = this.copy();
-    v.rotate(Math.PI/2);
+    v.rotate(Math.PI / 2);
     return v;
   }
 
@@ -70,5 +72,5 @@ function verticesToVec(v1, v2) {
 }
 
 function polarVec(r, theta) {
-  return new Vec(r*Math.cos(theta), r*Math.sin(theta));
+  return new Vec(r * Math.cos(theta), r * Math.sin(theta));
 }

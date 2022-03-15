@@ -13,10 +13,10 @@ class Vertex {
     switch (this.type) {
       case "Blob":
       case "1PI":
-        return 2*this.r;
+        return 2 * this.r;
       case "Insertion":
       case "Counterterm":
-        return 0.5*this.r;
+        return 0.5 * this.r;
       default:
         return this.r;
     }
@@ -32,8 +32,7 @@ function snapVerticesToGrid() {
   const dH = H / globalGrid.rows;
 
   for (let vIndex in vertices) {
-    vertices[vIndex].x = dW * (Math.floor(vertices[vIndex].x/dW) + 0.5);
-    vertices[vIndex].y = dH * (Math.floor(vertices[vIndex].y/dH) + 0.5);
+    vertices[vIndex].x = dW * (Math.floor(vertices[vIndex].x / dW) + 0.5);
+    vertices[vIndex].y = dH * (Math.floor(vertices[vIndex].y / dH) + 0.5);
   }
 }
-

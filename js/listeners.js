@@ -3,7 +3,7 @@ function newVertexListener(evt) {
   let canvas = document.getElementById("drawingArea");
   const coords = mouseEventToCanvasCoords(canvas, evt);
   vertices.push(new Vertex(coords.x, coords.y));
-  changeSelection(vertices[vertices.length-1].id)
+  changeSelection(vertices[vertices.length - 1].id);
   snapVerticesToGrid();
   drawScreen();
 }
@@ -13,7 +13,7 @@ function newLabelListener(evt) {
   let canvas = document.getElementById("drawingArea");
   const coords = mouseEventToCanvasCoords(canvas, evt);
   labels.push(new Label(coords.x, coords.y));
-  changeSelection(labels[labels.length-1].id)
+  changeSelection(labels[labels.length - 1].id);
 }
 
 function moveSelectListener(evt) {
@@ -25,7 +25,7 @@ function moveSelectListener(evt) {
   let grabOffset = coords;
   switch (selection.type) {
     case "edge":
-      changeSelection(edges[selection.ix].id)
+      changeSelection(edges[selection.ix].id);
       return;
     case "vertex":
       changeSelection(vertices[selection.ix].id);
@@ -43,20 +43,35 @@ function moveSelectListener(evt) {
       return;
   }
 
-
   function dragHandler(devt) {
     // Move the selected vertex/label to the event location
     const dcoords = mouseEventToCanvasCoords(canvas, devt);
     if (selection.type == "vertex") {
       const r = vertices[selection.ix].r;
-      vertices[selection.ix].x = clamp(dcoords.x - grabOffset.x, r, canvas.width-r);
-      vertices[selection.ix].y = clamp(dcoords.y - grabOffset.y, r, canvas.height-r);
+      vertices[selection.ix].x = clamp(
+        dcoords.x - grabOffset.x,
+        r,
+        canvas.width - r
+      );
+      vertices[selection.ix].y = clamp(
+        dcoords.y - grabOffset.y,
+        r,
+        canvas.height - r
+      );
     }
     if (selection.type == "label") {
       const w = labels[selection.ix].img.width;
       const h = labels[selection.ix].img.height;
-      labels[selection.ix].x = clamp(dcoords.x - grabOffset.x, 5, canvas.width-w-5);
-      labels[selection.ix].y = clamp(dcoords.y - grabOffset.y, 5, canvas.height-h-5);
+      labels[selection.ix].x = clamp(
+        dcoords.x - grabOffset.x,
+        5,
+        canvas.width - w - 5
+      );
+      labels[selection.ix].y = clamp(
+        dcoords.y - grabOffset.y,
+        5,
+        canvas.height - h - 5
+      );
     }
     drawScreen();
     updateStyleElement();
@@ -83,7 +98,7 @@ function deleteListener(evt) {
   let canvas = $("#drawingArea")[0];
   const coords = mouseEventToCanvasCoords(canvas, evt);
   const selection = determineSelection(coords);
-  switch(selection.type) {
+  switch (selection.type) {
     case "vertex":
       vertices.splice(selection.ix, 1);
       break;
@@ -103,8 +118,7 @@ function findOrMakeVertex(evt) {
   let selectedIx = selectedVertexIx(coords);
   if (selectedIx != -1) {
     return selectedIx;
-  }
-  else {
+  } else {
     newVertexListener(evt);
     return vertices.length - 1;
   }
@@ -121,7 +135,7 @@ function newEdgeListener(evt) {
   function newEdgeV2Listener(evt2) {
     const ix2 = findOrMakeVertex(evt2);
     edges.push(new Edge(vertices[ix1].id, vertices[ix2].id));
-    changeSelection(edges[edges.length-1].id)
+    changeSelection(edges[edges.length - 1].id);
     drawScreen();
     canvas.removeEventListener("mousedown", newEdgeV2Listener, false);
     canvas.addEventListener("mousedown", newEdgeListener, false);

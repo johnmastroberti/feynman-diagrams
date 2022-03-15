@@ -6,38 +6,46 @@ function newID() {
 
 function mouseEventToCanvasCoords(canvas, evt) {
   let bRect = canvas.getBoundingClientRect();
-  let mx = (evt.clientX - bRect.left)*(canvas.width/bRect.width);
-  let my = (evt.clientY - bRect.top)*(canvas.height/bRect.height);
-  return {x: mx, y: my}
+  let mx = (evt.clientX - bRect.left) * (canvas.width / bRect.width);
+  let my = (evt.clientY - bRect.top) * (canvas.height / bRect.height);
+  return { x: mx, y: my };
 }
 
 function selectedVertexIx(coords) {
-  const isHit = function(v) {
+  const isHit = function (v) {
     const dx = v.x - coords.x;
     const dy = v.y - coords.y;
     const R = v.drawRadius();
-    return dx*dx + dy*dy <= R*R;
+    return dx * dx + dy * dy <= R * R;
   };
   return vertices.findIndex(isHit);
 }
 
 function selectedEdgeIx(coords) {
-  const isHit = function(e) {
+  const isHit = function (e) {
     const eVec = e.toVec();
     let rCoords = e.getRelativeCoordsOf(coords);
     if (!e.curve) {
-      return rCoords.x > 0 && rCoords.x < eVec.len() && Math.abs(rCoords.y) < e.selectWidth;
+      return (
+        rCoords.x > 0 &&
+        rCoords.x < eVec.len() &&
+        Math.abs(rCoords.y) < e.selectWidth
+      );
     } else {
-      rCoords.x -= eVec.len()/2;
+      rCoords.x -= eVec.len() / 2;
       const ang = rCoords.angle();
-      return ang > 0 && ang < Math.PI && Math.abs(rCoords.len() - eVec.len()/2) < e.selectWidth;
+      return (
+        ang > 0 &&
+        ang < Math.PI &&
+        Math.abs(rCoords.len() - eVec.len() / 2) < e.selectWidth
+      );
     }
   };
   return edges.findIndex(isHit);
 }
 
 function selectedLabelIx(coords) {
-  const isHit = function(lab) {
+  const isHit = function (lab) {
     const dx = coords.x - lab.x;
     const dy = coords.y - lab.y;
     return dx > -5 && dy > -5 && dx < lab.w + 5 && dy < lab.h + 5;
