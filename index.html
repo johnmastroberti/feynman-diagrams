@@ -1,37 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Feynman</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-  <script src="/dist/all.js"></script>
-  <link rel="stylesheet" href="/main.css">
-</head>
-<body>
-  <div id="app">
-    <div id="styleBar">
-      <div id="styleTools"></div>
-      <div id="styleCanvas"></div>
-      <div id="styleElement"></div>
-      <div id="styleSpacer"></div>
-      <div id="styleExport"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Feynman</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+      integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5"
+      crossorigin="anonymous"
+    />
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+    ></script>
+    <script src="/dist/all.js"></script>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="styleBar">
+        <div id="styleTools"></div>
+        <div id="styleCanvas"></div>
+        <div id="styleElement"></div>
+        <div id="styleSpacer"></div>
+        <div id="styleExport"></div>
+      </div>
+
+      <div id="mainArea">
+        <div id="titleBar">
+          <h1 id="pageTitle"><em>FeynDraw</em></h1>
+        </div>
+
+        <div id="canvasDiv">
+          <canvas id="drawingArea" width="1600" height="800" />
+        </div>
+
+        <div id="footerDiv">
+          <a href="https://github.com/johnmastroberti/feynman-diagrams"
+            >GitHub</a
+          >
+        </div>
+      </div>
     </div>
-
-    <div id="mainArea">
-      <div id="titleBar"> 
-        <h1 id="pageTitle"><em>FeynDraw</em></h1>
-      </div>
-
-      <div id="canvasDiv">
-        <canvas id="drawingArea" width=1600 height=800/>
-      </div>
-
-      <div id="footerDiv">
-        <a href="https://github.com/johnmastroberti/feynman-diagrams">GitHub</a>
-      </div>
-    </div>
-  </div>
-</body>
+  </body>
 </html>

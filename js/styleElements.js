@@ -15,7 +15,7 @@ function createButtonGroup(divID, groupName, buttonDefs) {
     innerDiv.className = "imageButton";
     innerDiv.id = b.id;
     const iID = "#" + b.id;
-    innerDiv.onclick = function() {
+    innerDiv.onclick = function () {
       for (let c of outerDiv.children) {
         c.className = "imageButton";
       }
@@ -38,5 +38,3 @@ function createButtonGroup(divID, groupName, buttonDefs) {
     $(iID).append(p);
   }
 }
-
-
