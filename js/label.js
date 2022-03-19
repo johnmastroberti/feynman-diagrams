@@ -50,3 +50,10 @@ class Label {
     // });
   }
 }
+
+function makeProperLabel(l) {
+  let a = new Label(l.x, l.y);
+  a.scale = l.scale;
+  a.setText(l.text);
+  return a;
+}

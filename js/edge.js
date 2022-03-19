@@ -74,3 +74,9 @@ class Edge {
     return rel;
   }
 }
+
+function makeProperEdge(e) {
+  let a = new Edge(e.v1, e.v2, e.type);
+  for (let k in e) a[k] = e[k];
+  return a;
+}

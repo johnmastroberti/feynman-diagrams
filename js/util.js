@@ -75,3 +75,9 @@ function changeSelection(id) {
   updateStyleElement();
   drawScreen();
 }
+
+function makeAllElementsProper() {
+  for (let i in vertices) vertices[i] = makeProperVertex(vertices[i]);
+  for (let i in edges) edges[i] = makeProperEdge(edges[i]);
+  for (let i in labels) labels[i] = makeProperLabel(labels[i]);
+}

@@ -32,14 +32,28 @@ function createStyleTools() {
       "vertexbtn",
       "Add Vertex",
       "/img/tools/vertex.png",
+      false,
       newVertexButton
     ),
-    imgButton("edgebtn", "Add Edge", "/img/tools/edge.png", newEdgeButton),
-    imgButton("labelbtn", "Add Label", "/img/tools/label.png", newLabelButton),
+    imgButton(
+      "edgebtn",
+      "Add Edge",
+      "/img/tools/edge.png",
+      false,
+      newEdgeButton
+    ),
+    imgButton(
+      "labelbtn",
+      "Add Label",
+      "/img/tools/label.png",
+      false,
+      newLabelButton
+    ),
     imgButton(
       "moveselbtn",
       "Move/Select",
       "/img/tools/move.png",
+      false,
       moveSelectButton
     ),
   ];
@@ -51,52 +65,86 @@ function createStyleCanvas() {
   const divID = "#styleCanvas";
   createStyleHeading(divID, "Canvas Settings");
 
-  createStyleCheckBox(
-    divID,
-    "verboseDrawing",
-    "Show all vertices and label outlines",
-    globalVerboseDrawing,
-    function () {
-      globalVerboseDrawing = $("#SBverboseDrawing")[0].checked;
-      drawScreen();
-    }
-  );
-  createStyleCheckBox(
-    divID,
-    "snapToGrid",
-    "Snap to grid",
-    globalSnapToGrid,
-    function () {
-      globalSnapToGrid = $("#SBsnapToGrid")[0].checked;
-      drawScreen();
-    }
-  );
+  createCheckButtonGroup(divID, "canvasSettings", [
+    {
+      id: "verboseDrawingBtn",
+      text: "Show all vertices and label outlines",
+      callback: function () {
+        globalVerboseDrawing = !globalVerboseDrawing;
+        drawScreen();
+      },
+      checked: globalVerboseDrawing,
+    },
+    {
+      id: "snapGridBtn",
+      text: "Snap to grid",
+      callback: function () {
+        globalSnapToGrid = !globalSnapToGrid;
+        drawScreen();
+      },
+      checked: globalSnapToGrid,
+    },
+  ]);
 }
 
 function createStyleExport() {
   const divID = "#styleExport";
   createStyleHeading(divID, "Import/Export");
+
+  const displayNames = {
+    epng: "Export PNG",
+    etex: "Export TeX",
+    ejson: "Export JSON",
+    ijson: "Import JSON",
+  };
+  const callbacks = {
+    epng: exportPNG,
+    etex: exportTEX,
+    ejson: exportJSON,
+    ijson: importJSON,
+  };
+  const ioButton = (name) =>
+    imgButton(
+      "IO" + name,
+      displayNames[name],
+      "/img/io/" + name + ".png",
+      false,
+      callbacks[name]
+    );
+
+  const buttons = ["epng", "etex", "ejson", "ijson"].map(ioButton);
+  createButtonGroup("#styleExport", "ioButtons", buttons);
 }
 
 function updateStyleBarVertex(vIndex) {
   const divID = "#styleElement";
   createStyleHeading(divID, "Vertex Options");
   const v = vertices[vIndex];
-  // createStyleSelector(divID, "type", "Type:", vertexTypes, v.type,
-  //   function () {
-  //     vertices[vIndex].type = $("#SBtype").val();
-  //     drawScreen();
-  //   });
-  const vertexCB = function () {
-    // TODO
+
+  const vertexCB = function (vtype) {
+    return function () {
+      vertices[vIndex].type = vtype;
+      drawScreen();
+    };
   };
   const simpleIB = function (name) {
     const lower = name.toLowerCase();
-    return imgButton(lower, name, "/img/vertex/" + lower + ".png", vertexCB);
+    return imgButton(
+      "VT" + lower,
+      name,
+      "/img/vertex/" + lower + ".png",
+      false,
+      vertexCB(name)
+    );
   };
-  const buttons = ["Normal", "Blob", "1PI", "Insertion", "Counterterm"].map(
-    (x) => simpleIB(x)
-  );
+  const buttons = vertexTypes.map((x) => simpleIB(x));
+  createButtonGroup("#styleElement", "vertexType", buttons);
+  $("#VT" + v.type.toLowerCase()).addClass("IBselected");
+
+  createStyleButton(divID, "deleteVertex", "Delete Vertex", function () {
+    vertices.splice(vIndex, 1);
+    changeSelection(-1);
+  });
 }
 
 function updateStyleBarEdge(eIndex) {
@@ -104,10 +152,25 @@ function updateStyleBarEdge(eIndex) {
   createStyleHeading(divID, "Edge Options");
   const e = edges[eIndex];
 
-  createStyleSelector(divID, "type", "Type:", edgeTypes, e.type, function () {
-    edges[eIndex].type = $("#SBtype").val();
-    drawScreen();
-  });
+  const edgeCB = function (etype) {
+    return function () {
+      edges[eIndex].type = etype;
+      drawScreen();
+    };
+  };
+  const simpleIB = function (name) {
+    const lower = name.toLowerCase();
+    return imgButton(
+      "ET" + lower,
+      name,
+      "/img/edge/" + lower + ".png",
+      true,
+      edgeCB(name)
+    );
+  };
+  const buttons = edgeTypes.map((x) => simpleIB(x));
+  createButtonGroup("#styleElement", "edgeType", buttons);
+  $("#ET" + e.type.toLowerCase()).addClass("IBselected");
 
   const checkboxes = [
     { prop: "curve", label: "Curve " },
@@ -115,21 +178,26 @@ function updateStyleBarEdge(eIndex) {
     { prop: "reverseMomentum", label: "Reverse Arrow " },
     { prop: "swapMomentumSide", label: "Swap Arrow to Other Side " },
   ];
-  for (const item of checkboxes)
-    createStyleCheckBox(
-      divID,
-      item.prop,
-      item.label,
-      edges[eIndex][item.prop],
-      function () {
-        edges[eIndex][item.prop] = $("#SB" + item.prop)[0].checked;
+  createCheckButtonGroup(
+    "#styleElement",
+    "edgeOpts",
+    checkboxes.map((cb) => ({
+      id: "EO" + cb.prop,
+      text: cb.label,
+      callback: function () {
+        edges[eIndex][cb.prop] = $("#EO" + cb.prop).hasClass("selectedCB");
         drawScreen();
-      }
-    );
+      },
+    }))
+  );
 
   createStyleButton(divID, "reverse", "Reverse Orientation", function () {
     edges[eIndex].reverseOrientation();
     drawScreen();
+  });
+  createStyleButton(divID, "deleteEdge", "Delete Edge", function () {
+    edges.splice(eIndex, 1);
+    changeSelection(-1);
   });
 }
 
@@ -145,6 +213,10 @@ function updateStyleBarLabel(labIndex) {
       labels[labIndex].setText($("#SBtext").val());
     }
   );
+  createStyleButton(divID, "deleteLabel", "Delete Label", function () {
+    labels.splice(labIndex, 1);
+    changeSelection(-1);
+  });
 }
 
 function createStylePtag(text) {
@@ -232,6 +304,7 @@ function createStyleButton(divID, name, text, callback) {
   let bTag = document.createElement("button");
   bTag.id = name;
   bTag.innerHTML = text;
+  bTag.className = "customButton";
   // const br = document.createElement('br');
 
   $(divID).append(bTag);

@@ -36,3 +36,9 @@ function snapVerticesToGrid() {
     vertices[vIndex].y = dH * (Math.floor(vertices[vIndex].y / dH) + 0.5);
   }
 }
+
+function makeProperVertex(v) {
+  let a = new Vertex();
+  for (let k in v) a[k] = v[k];
+  return a;
+}

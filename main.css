@@ -9,6 +9,10 @@ body {
   background: #884444;
 }
 
+p {
+  margin: 0;
+}
+
 a {
   color: white;
 }
@@ -32,6 +36,7 @@ a {
   flex-flow: column nowrap;
   justify-content: space-between;
   background: #444444;
+  overflow-y: scroll;
 }
 
 #mainArea {
@@ -93,6 +98,15 @@ a {
   border-radius: 30%;
 }
 
+.wideButtonImage {
+  width: 200px;
+  border-radius: 30%;
+}
+
+.buttonText {
+  margin-top: 0.5em;
+}
+
 .IBselected {
   background: #884444;
 }
@@ -111,4 +125,61 @@ a {
 
 input {
   margin: 4px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  flex-flow: wrap;
+  padding-bottom: 1em;
+}
+
+.customCheckButton {
+  flex: 1 1 10rem;
+  /* padding: 0.5rem; */
+  /* background: lightblue; */
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  border: 3px solid white;
+}
+
+.selectedCB {
+  background: #884444;
+}
+
+.customCheckButtonText {
+  padding: 0.3rem;
+  padding-left: 0;
+}
+
+.CBicon::before {
+  content: "\2610";
+  position: relative;
+  display: inline-block;
+  font-size: 3rem;
+  padding: 0.5rem 1rem;
+}
+
+.selectedCB .CBicon::before {
+  content: "\2611";
+}
+
+.customButton {
+  display: inline-block;
+  padding: 1.5em;
+  margin-right: 10px;
+  color: white;
+  background-color: #884444;
+  border-radius: 10px;
+  border: 0;
+  transition: background 100ms ease-in-out, transform 100ms ease-in-out;
+}
+
+.customButton:hover {
+  background: #703a3a;
+}
+
+.customButton:active {
+  transform: scale(0.99);
 }
